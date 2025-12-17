@@ -1,0 +1,24 @@
+# Core packages for YouTube automation
+requests==2.32.5
+pytz==2025.2
+tzlocal==5.3.1
+
+# Google APIs for YouTube
+google-auth-oauthlib==1.2.2
+google-auth==2.41.1
+google-api-python-client==2.184.0
+
+# Environment and configuration
+python-dotenv==1.1.1
+
+# GUI packages
+tkcalendar==1.6.1
+
+# Web scraping for Instagram (insta_transcriptions.py)
+beautifulsoup4==4.14.2
+requests-oauthlib==1.3.1
+
+# Note: tkinter is included with Python (Standard library)
+# Standard library modules (os, pickle, datetime, json, sys, hashlib, re, time, subprocess, tkinter) 
+# are included with Python and don't need to be installed separately.instagrapi==2.1.3
+google-generativeai

@@ -1,0 +1,67 @@
+# ======================
+# SENSITIVE DATA - DO NOT COMMIT
+# ======================
+
+# Environment variables with API keys, tokens, and credentials
+.env
+
+# Google OAuth credentials
+client_secret.json
+token.pickle
+
+# YouTube account authentication tokens
+youtube_accounts/*.pickle
+
+# Last account state
+.last_account.json
+
+# ======================
+# PYTHON
+# ======================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.eggs/
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ======================
+# IDE & EDITOR
+# ======================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ======================
+# OUTPUT & DATA FILES
+# ======================
+# Processed video data (may contain personal data)
+processed_videos_data/
+
+# Temporary output files
+reel_captions_output_*.txt
+
+# Archive folder (old/backup files)
+archive/
+
+# ======================
+# LOGS
+# ======================
+*.log
+logs/

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Automation Suite</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                    </path>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+                <h1>YouTube Automation</h1>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active" data-view="dashboard">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-item" data-view="accounts">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Accounts</span>
+            </a>
+
+            <a href="#" class="nav-item" data-view="automation">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                <span>Run Automation</span>
+            </a>
+
+            <a href="#" class="nav-item" data-view="promotion">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                </svg>
+                <span>Promote Videos</span>
+            </a>
+
+            <a href="#" class="nav-item" data-view="stats">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <span>Statistics</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <!-- Universal Account Selector -->
+            <div class="global-account-selector">
+                <label>Active Account</label>
+                <select id="globalAccountSelect" onchange="app.selectGlobalAccount(this.value)">
+                    <option value="">Select account...</option>
+                </select>
+            </div>
+            <div class="connection-status">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Connecting...</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view active">
+            <header class="page-header">
+                <h2>Dashboard</h2>
+                <p class="page-subtitle">Welcome to YouTube Shorts Automation Suite</p>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <p class="stat-label">Accounts</p>
+                        <h3 class="stat-value" id="accountCount">-</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <p class="stat-label">Videos Scheduled</p>
+                        <h3 class="stat-value" id="videosScheduled">-</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <p class="stat-label">Last Run</p>
+                        <h3 class="stat-value" id="lastRun">Never</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-large" onclick="app.showView('automation')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Run Automation
+                    </button>
+                    <button class="btn btn-secondary btn-large" onclick="app.showView('accounts')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                        Add Account
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounts View -->
+        <div id="accounts-view" class="view">
+            <header class="page-header">
+                <h2>Accounts</h2>
+                <button class="btn btn-primary" onclick="app.openAddAccountModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Account
+                </button>
+            </header>
+
+            <div id="accountsGrid" class="accounts-grid">
+                <!-- Accounts will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Automation View -->
+        <div id="automation-view" class="view">
+            <header class="page-header">
+                <h2>Run Automation</h2>
+                <p class="page-subtitle">Schedule your YouTube Shorts videos</p>
+            </header>
+
+            <div class="automation-container">
+                <div class="form-card">
+                    <h3>Schedule Settings</h3>
+
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" id="startDate" class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Videos Per Day</label>
+                        <input type="number" id="videosPerDay" class="input-field" value="1" min="1" max="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Daily Time Slots</label>
+                        <div id="timeSlotsContainer">
+                            <input type="time" class="input-field" value="19:00">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-large" onclick="app.runAutomation()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Start Scheduling
+                    </button>
+                </div>
+
+                <div id="automationProgress" class="progress-container" style="display: none;">
+                    <h3>Processing...</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    <div id="progressLog" class="progress-log"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Promotion View -->
+        <div id="promotion-view" class="view">
+            <header class="page-header">
+                <h2>Promote Videos</h2>
+                <p class="page-subtitle">Auto-promote your videos across platforms</p>
+            </header>
+
+            <div class="form-card">
+                <h3>Platform Selection</h3>
+                <div class="platform-toggles">
+                    <label class="platform-toggle">
+                        <input type="checkbox" id="enableTelegram">
+                        <span class="toggle-label">📱 Telegram</span>
+                    </label>
+                    <label class="platform-toggle">
+                        <input type="checkbox" id="enableTwitter">
+                        <span class="toggle-label">🐦 Twitter</span>
+                    </label>
+                    <label class="platform-toggle">
+                        <input type="checkbox" id="enableInstagram">
+                        <span class="toggle-label">📸 Instagram</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Telegram Configuration -->
+            <div id="telegramConfig" class="form-card platform-config" style="display: none;">
+                <h3>📱 Telegram Configuration</h3>
+                <div class="form-group">
+                    <label>Bot Token</label>
+                    <input type="password" id="telegramBotToken" class="input-field"
+                        placeholder="Your bot token from @BotFather">
+                </div>
+                <div class="form-group">
+                    <label>Channel ID</label>
+                    <input type="text" id="telegramChannelId" class="input-field"
+                        placeholder="@yourchannel or -100xxxxxxxxx">
+                    <p class="input-hint">Your Telegram channel username or ID</p>
+                </div>
+            </div>
+
+            <!-- Twitter Configuration -->
+            <div id="twitterConfig" class="form-card platform-config" style="display: none;">
+                <h3>🐦 Twitter/X Configuration</h3>
+                <div id="twitterAuthStatus" class="auth-status">
+                    <div class="auth-status-disconnected">
+                        <p>Connect your Twitter/X account to enable posting</p>
+                        <button class="btn btn-twitter" onclick="app.connectTwitter()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                            Connect Twitter/X Account
+                        </button>
+                    </div>
+                    <div class="auth-status-connected" style="display: none;">
+                        <div class="connected-info">
+                            <span class="status-badge success">✓ Connected</span>
+                            <span id="twitterUsername">@username</span>
+                        </div>
+                        <button class="btn btn-secondary btn-small"
+                            onclick="app.disconnectTwitter()">Disconnect</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instagram Configuration -->
+            <div id="instagramConfig" class="form-card platform-config" style="display: none;">
+                <h3>📸 Instagram Configuration</h3>
+                <div id="instagramAuthStatus" class="auth-status">
+                    <div class="auth-status-disconnected">
+                        <p>Connect your Instagram account to enable posting</p>
+                        <button class="btn btn-instagram" onclick="app.connectInstagram()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                            Connect Instagram Account
+                        </button>
+                    </div>
+                    <div class="auth-status-connected" style="display: none;">
+                        <div class="connected-info">
+                            <span class="status-badge success">✓ Connected</span>
+                            <span id="instagramUsername">@username</span>
+                        </div>
+                        <button class="btn btn-secondary btn-small"
+                            onclick="app.disconnectInstagram()">Disconnect</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h3>Select Videos to Promote</h3>
+                <p class="input-hint">Select videos from your channel to promote across platforms</p>
+
+                <div class="video-list-controls">
+                    <button class="btn btn-secondary btn-small" onclick="app.loadRecentVideos()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                        Refresh
+                    </button>
+                    <label class="select-all-label">
+                        <input type="checkbox" id="selectAllVideos" onchange="app.toggleSelectAllVideos()">
+                        <span>Select All</span>
+                    </label>
+                </div>
+
+                <div id="videoSelectionList" class="video-selection-list">
+                    <p class="loading-text">Select an account to load videos...</p>
+                </div>
+
+                <button class="btn btn-primary btn-large" onclick="app.runPromotion()" style="margin-top: 20px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                    </svg>
+                    Promote Selected Videos
+                </button>
+            </div>
+
+            <div id="promotionProgress" class="progress-container" style="display: none;">
+                <h3>Promoting...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="promotionProgressBar"></div>
+                </div>
+                <div id="promotionLog" class="progress-log"></div>
+            </div>
+        </div>
+
+        <!-- Stats View -->
+        <div id="stats-view" class="view">
+            <header class="page-header">
+                <h2>Statistics</h2>
+                <p class="page-subtitle">View your automation statistics</p>
+            </header>
+
+            <div id="statsContainer" class="stats-container">
+                <!-- Stats will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Add Account -->
+    <div id="addAccountModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Account</h3>
+                <button class="modal-close" onclick="app.closeAddAccountModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Account Name</label>
+                    <input type="text" id="newAccountName" class="input-field" placeholder="e.g., personal, business">
+                    <p class="input-hint">Only letters, numbers, hyphens, and underscores allowed</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="app.closeAddAccountModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="app.addAccount()">Add Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

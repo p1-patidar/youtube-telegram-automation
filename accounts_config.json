@@ -1,0 +1,35 @@
+{
+  "global": {
+    "youtube_api_key": "<YOUR_YOUTUBE_API_KEY>",
+    "telegram_bot_token": "<DEFAULT_TELEGRAM_BOT_TOKEN>",
+    "timezone": "Asia/Kolkata",
+    "twitter_webhook": "https://maker.ifttt.com/trigger/YOUR_EVENT/with/key/your_ifttt_key",
+    "x_bearer_token": "<YOUR_X_USER_OAUTH2_BEARER_TOKEN>"
+  },
+  "accounts": [
+    {
+      "channel_id": "UCXXXXXXXXXXXX1",
+      "telegram_targets": [
+        { "chat_id": "-1001234567890", "bot_token": "<BOT_TOKEN_FOR_CHAT_1>" },
+        { "chat_id": "-1009876543210" }
+      ]
+    },
+    {
+      "channel_id": "UCYYYYYYYYYYYY2",
+      "telegram_targets": [
+        { "chat_id": "-1005555555555", "send_no_video_messages": true }
+      ]
+      ,
+      "twitter_targets": [
+        { "webhook": "https://maker.ifttt.com/trigger/another_event/with/key/your_ifttt_key" },
+        { "x_bearer_token": "<PER_ACCOUNT_X_USER_OAUTH2_BEARER_TOKEN>" }
+      ]
+      ,
+      "image_generation_webhook": "https://your-image-gen.example.com/generate",
+      "instagram_targets": [
+        { "ig_user_id": "1784140XXXXXXXXX", "access_token": "<IG_USER_ACCESS_TOKEN>", "post_story": true }
+      ],
+      "youtube_community": { "webhook": "https://your-automation.example.com/post_youtube_community" }
+    }
+  ]
+}
